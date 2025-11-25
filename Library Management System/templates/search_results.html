@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h2>Search Results</h2>
+        <p class="page-subtitle">Showing results for: "{{ query }}"</p>
+    </div>
+</div>
+
+{% if not query %}
+    <p style="opacity:0.7;">Type something in the search box on the dashboard to search.</p>
+{% else %}
+
+    <!-- Books Result -->
+    <div class="card">
+        <div class="card-header">
+            <span>Books</span>
+        </div>
+        <div class="card-body table-wrapper">
+            <table class="dark-table">
+                <thead>
+                <tr>
+                    <th>#</th><th>Title</th><th>Author</th><th>ISBN</th><th>Quantity</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for b in books %}
+                    <tr>
+                        <td>{{ b.id }}</td>
+                        <td>{{ b.title }}</td>
+                        <td>{{ b.author }}</td>
+                        <td>{{ b.isbn }}</td>
+                        <td>{{ b.quantity }}</td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="5" style="text-align:center; opacity:0.7;">No books found.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Members Result -->
+    <div class="card">
+        <div class="card-header">
+            <span>Members</span>
+        </div>
+        <div class="card-body table-wrapper">
+            <table class="dark-table">
+                <thead>
+                <tr>
+                    <th>#</th><th>Name</th><th>Email</th><th>Phone</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for m in members %}
+                    <tr>
+                        <td>{{ m.id }}</td>
+                        <td>{{ m.name }}</td>
+                        <td>{{ m.email }}</td>
+                        <td>{{ m.phone }}</td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="4" style="text-align:center; opacity:0.7;">No members found.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}

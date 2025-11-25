@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Issue Book</h1>
+
+{% if books|length == 0 %}
+<p style="color:red">⚠ No books available! Add books first.</p>
+<a class="btn" href="{{ url_for('add_book') }}">Add Book</a>
+{% elif members|length == 0 %}
+<p style="color:red">⚠ No members available! Add members first.</p>
+<a class="btn" href="{{ url_for('add_member') }}">Add Member</a>
+{% else %}
+
+<form method="post">
+    <label>Select Book</label>
+    <select name="book_id" required>
+        <option value="">-- Select Book --</option>
+        {% for b in books %}
+            <option value="{{ b.id }}">
+                {{ b.title }} (Available: {{ b.quantity }})
+            </option>
+        {% endfor %}
+    </select>
+
+    <label>Select Member</label>
+    <select name="member_id" required>
+        <option value="">-- Select Member --</option>
+        {% for m in members %}
+            <option value="{{ m.id }}">{{ m.name }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit" class="btn">Issue</button>
+</form>
+
+{% endif %}
+{% endblock %}

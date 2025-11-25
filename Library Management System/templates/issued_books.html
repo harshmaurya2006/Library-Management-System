@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header">
+    <div>
+        <h2>Issued Books & Returns</h2>
+        <p class="page-subtitle">Track issued books and mark them as returned.</p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <span>All Issued Records</span>
+    </div>
+    <div class="card-body table-wrapper">
+        <table class="dark-table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Book</th>
+                <th>Member</th>
+                <th>Issue Date</th>
+                <th>Status</th>
+                <th>Return</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for r in issued %}
+                <tr>
+                    <td>{{ r.id }}</td>
+                    <td>{{ r.title }}</td>
+                    <td>{{ r.member_name }}</td>
+                    <td>{{ r.issue_date }}</td>
+                    <td>
+                        {% if r.return_date %}
+                            <span class="status-pill status-returned">
+                                Returned on {{ r.return_date }}
+                            </span>
+                        {% else %}
+                            <span class="status-pill status-issued">
+                                Issued (Not Returned)
+                            </span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if not r.return_date %}
+                            <form method="post"
+                                  action="{{ url_for('return_book', issue_id=r.id) }}"
+                                  onsubmit="return confirm('Mark this book as returned?');">
+                                <button type="submit" class="btn btn-return">
+                                    <i class="fa-solid fa-rotate-left"></i>
+                                    Return
+                                </button>
+                            </form>
+                        {% else %}
+                            <span class="status-pill status-done">
+                                <i class="fa-solid fa-check"></i> Done
+                            </span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6" style="text-align: center; opacity: 0.7;">
+                        No issued books yet.
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

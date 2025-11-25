@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h2>Dashboard Overview</h2>
+        <p class="page-subtitle">Quick view of your library statistics and recent activity.</p>
+    </div>
+</div>
+
+<!-- Welcome + Clock + Search -->
+<div class="card welcome-card">
+    <div class="welcome-left">
+        <h3>Hello, Team White Colars 👋</h3>
+        <p class="welcome-subtitle">
+            Welcome back to your Library Management Dashboard.
+        </p>
+        <div class="clock-pill">
+            <span id="liveDate"></span> · <span id="liveTime"></span>
+        </div>
+    </div>
+    <div class="welcome-right">
+        <form action="{{ url_for('search') }}" method="get" class="global-search-form">
+            <input type="text" name="q" placeholder="Search books or members..."
+                   autocomplete="off">
+            <button type="submit" class="btn btn-return">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                Search
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Stat Cards Row -->
+<div class="cards">
+    <a class="stat-card stat-click" href="{{ url_for('books') }}">
+        <span class="stat-label">Total Books</span>
+        <span class="stat-value">{{ total_books }}</span>
+    </a>
+
+    <a class="stat-card stat-click" href="{{ url_for('members') }}">
+        <span class="stat-label">Total Members</span>
+        <span class="stat-value">{{ total_members }}</span>
+    </a>
+
+    <a class="stat-card stat-click" href="{{ url_for('issued_books') }}">
+        <span class="stat-label">Books Issued</span>
+        <span class="stat-value">{{ total_issued }}</span>
+    </a>
+</div>
+
+<!-- Quick Actions -->
+<div class="card quick-actions-card">
+    <div class="card-header">
+        <span>Quick Actions</span>
+    </div>
+    <div class="card-body quick-actions">
+        <a href="{{ url_for('add_book') }}" class="quick-btn">
+            <i class="fa-solid fa-circle-plus"></i>
+            <span>Add Book</span>
+        </a>
+        <a href="{{ url_for('add_member') }}" class="quick-btn">
+            <i class="fa-solid fa-user-plus"></i>
+            <span>Add Member</span>
+        </a>
+        <a href="{{ url_for('issue_book') }}" class="quick-btn">
+            <i class="fa-solid fa-arrow-up-from-bracket"></i>
+            <span>Issue Book</span>
+        </a>
+        <a href="{{ url_for('issued_books') }}" class="quick-btn">
+            <i class="fa-solid fa-arrow-rotate-left"></i>
+            <span>Issued / Return</span>
+        </a>
+    </div>
+</div>
+
+<!-- Middle row: Chart + Most Issued Book -->
+<div class="dashboard-row">
+    <div class="card dashboard-col">
+        <div class="card-header">
+            <span>Books Status</span>
+        </div>
+        <div class="card-body">
+            <p class="chart-subtitle">Issued vs Available copies.</p>
+            <canvas id="issueChart" height="180"></canvas>
+            <p class="chart-legend">
+                <span class="legend-dot legend-issued"></span> Issued:
+                {{ issued_copies }} &nbsp;&nbsp;
+                <span class="legend-dot legend-available"></span> Available:
+                {{ available_copies }}
+            </p>
+        </div>
+    </div>
+
+    <div class="card dashboard-col">
+        <div class="card-header">
+            <span>Most Issued Book</span>
+        </div>
+        <div class="card-body most-issued-card">
+            {% if most_issued %}
+                <h3>{{ most_issued.title }}</h3>
+                <p class="most-issued-meta">
+                    Total issues: <strong>{{ most_issued.issue_count }}</strong>
+                </p>
+                <p class="most-issued-note">
+                    This book is the most popular among your library members.
+                </p>
+            {% else %}
+                <p style="opacity:0.7;">No issue records yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Recent Activity -->
+<div class="card">
+    <div class="card-header">
+        <span>Recent Activity</span>
+    </div>
+    <div class="card-body table-wrapper">
+        <table class="dark-table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Book</th>
+                <th>Member</th>
+                <th>Issue Date</th>
+                <th>Return Date / Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for r in recent_activities %}
+                <tr>
+                    <td>{{ r.id }}</td>
+                    <td>{{ r.title }}</td>
+                    <td>{{ r.member_name }}</td>
+                    <td>{{ r.issue_date }}</td>
+                    <td>
+                        {% if r.return_date %}
+                            <span class="status-pill status-returned">
+                                Returned on {{ r.return_date }}
+                            </span>
+                        {% else %}
+                            <span class="status-pill status-issued">
+                                Not Returned
+                            </span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" style="text-align:center; opacity:0.7;">
+                        No recent activity yet.
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Scripts: Chart + Clock -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Donut chart for Issued vs Available
+    const issuedCopies = {{ issued_copies | default(0) }};
+    const availableCopies = {{ available_copies | default(0) }};
+
+    const ctx = document.getElementById('issueChart').getContext('2d');
+    const issueChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Issued', 'Available'],
+            datasets: [{
+                data: [issuedCopies, availableCopies],
+                backgroundColor: ['#10A37F', '#4B5563'],
+                hoverBackgroundColor: ['#15b28c', '#6B7280'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            cutout: '70%'
+        }
+    });
+
+    // Live clock + date
+    function updateClock() {
+        const now = new Date();
+        const timeElem = document.getElementById('liveTime');
+        const dateElem = document.getElementById('liveDate');
+
+        const optionsDate = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+        const optionsTime = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+
+        dateElem.textContent = now.toLocaleDateString(undefined, optionsDate);
+        timeElem.textContent = now.toLocaleTimeString(undefined, optionsTime);
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+</script>
+
+{% endblock %}

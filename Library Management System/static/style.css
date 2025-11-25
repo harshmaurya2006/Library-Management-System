@@ -1,0 +1,838 @@
+html {
+    transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+body, .card, .dark-table, .sidebar, .main-content,
+input, select, textarea, .bottom-bar-inner,
+.nav-item, .theme-btn {
+    transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+}
+
+.theme-btn i {
+    transition: transform 0.25s ease;
+}
+
+.theme-btn:hover i {
+    transform: rotate(20deg);
+}
+
+
+.transition_icon{
+  float: right;
+}
+
+/* ===== THEME VARIABLES ===== */
+:root {
+    --bg-main: #343541;
+    --bg-sidebar: #202123;
+    --bg-card: #444654;
+    --bg-hover: #505268;
+    --text-main: #ECECEC;
+    --text-sub: #9CA3AF;
+    --border-color: var(--border-color);
+    --accent: #10A37F;
+}
+
+/* Light theme override */
+:root.light-theme {
+    --bg-main: #f6f7f9;
+    --bg-sidebar: #ffffff;
+    --bg-card: #ffffff;
+    --bg-hover: #dadde2;
+    --text-main: #1a1a1a;
+    --text-sub: #555;
+    --border-color: #c9ccd1;
+    --accent: #089071;
+}
+
+
+
+
+/* ===== Base Layout ===== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body.dark-body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg-sidebar);
+  color: var(--text-main);
+
+}
+
+.app-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ===== Sidebar ===== */
+
+.sidebar {
+  width: 260px;
+  background: var(--bg-sidebar);
+  border-right: 1px solid #343541;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  gap: 12px;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--bg-main);
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.sidebar-header i {
+  font-size: 18px;
+  color: #10A37F;
+}
+
+.sidebar-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 14px;
+  opacity: 0.9;
+  transition: background 0.15s ease, transform 0.1s ease, opacity 0.15s ease;
+}
+
+.nav-item i {
+  width: 18px;
+  text-align: center;
+}
+
+.nav-item:hover {
+  background: var(--bg-main);
+  transform: translateY(-1px);
+  opacity: 1;
+}
+
+.nav-item.active {
+  background: #10A37F;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(16, 163, 127, 0.4);
+}
+
+/* Sidebar bottom buttons */
+
+.sidebar-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.upgrade-btn,
+.settings-btn {
+  width: 100%;
+  border-radius: 999px;
+  border: none;
+  outline: none;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.upgrade-btn {
+  background: #10A37F;
+  color: #fff;
+  box-shadow: 0 0 12px rgba(16, 163, 127, 0.4);
+}
+
+.settings-btn {
+  background: var(--bg-main);
+  color: var(--text-main);
+
+}
+
+.upgrade-btn:hover,
+.settings-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+/* ===== Main Content ===== */
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-main);
+  position: relative;
+}
+
+/* Top bar */
+
+.topbar {
+  padding: 14px 20px;
+  border-bottom: 1px solid #444654;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.topbar-title h1 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.topbar-subtitle {
+  font-size: 12px;
+  color: var(--text-sub);
+  margin-top: 2px;
+}
+
+/* Content */
+
+.content {
+  flex: 1;
+  padding: 16px 20px 80px;
+  /* extra bottom space for fixed footer */
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+/* Page header */
+
+.page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.page-header h2 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.page-subtitle {
+  font-size: 13px;
+  color: var(--text-sub);
+  margin-top: 4px;
+}
+
+/* ===== Cards ===== */
+
+.card {
+  background: var(--bg-card);
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  margin-bottom: 16px;
+  margin-top: 16px;
+  padding: 20px 30px;
+}
+
+.card-header {
+  padding: 10px 14px;
+  border-bottom: 1px solid #3A3B42;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.card-body {
+  margin: 30px 40px;
+  padding: 12px 14px 16px;
+
+}
+
+/* Dashboard stats (if you use cards in index.html) */
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.stat-card {
+  flex: 1 1 180px;
+  background: var(--bg-card);
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: var(--text-sub);
+
+}
+
+.stat-value {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* ===== Tables ===== */
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.dark-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.dark-table thead {
+  background: #3A3B42;
+}
+
+.dark-table th,
+.dark-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #3A3B42;
+  text-align: left;
+}
+
+.dark-table th {
+  font-weight: 500;
+  color: #D1D5DB;
+  white-space: nowrap;
+}
+
+.dark-table tbody tr:hover {
+  background: #3A3B42;
+}
+
+/* ===== Status Pills ===== */
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  gap: 5px;
+}
+
+.status-issued {
+  background: rgba(234, 179, 8, 0.12);
+  color: #FBBF24;
+}
+
+.status-returned {
+  background: rgba(34, 197, 94, 0.12);
+  color: #4ADE80;
+}
+
+.status-done {
+  background: rgba(59, 130, 246, 0.12);
+  color: #60A5FA;
+}
+
+/* ===== Buttons & Inputs ===== */
+
+.btn {
+  border-radius: 999px;
+  border: none;
+  outline: none;
+  padding: 6px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.1s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.btn-return {
+  background: #10A37F;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(16, 163, 127, 0.5);
+}
+
+.btn-return:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+.btn-secondary {
+  background: #3A3B42;
+  color: #E5E7EB;
+}
+
+input,
+select,
+textarea {
+  background: var(--bg-sidebar);
+  border-radius: 999px;
+  border: 1px solid #444654;
+  color: #E5E7EB;
+  padding: 8px 11px;
+  font-size: 13px;
+  outline: none;
+  width: 100%;
+  margin-top: 4px;
+  transition: border 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #10A37F;
+  box-shadow: 0 0 0 1px rgba(16, 163, 127, 0.6);
+}
+
+/* Labels */
+
+label {
+  font-size: 13px;
+  margin-top: 10px;
+  display: block;
+}
+
+/* ===== Flash Messages ===== */
+
+.flash-wrapper {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.flash {
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.flash-success {
+  background: rgba(16, 163, 127, 0.13);
+  color: #6EE7B7;
+}
+
+.flash-danger {
+  background: rgba(239, 68, 68, 0.13);
+  color: #FCA5A5;
+}
+
+.flash-warning {
+  background: rgba(245, 158, 11, 0.13);
+  color: #FBBF24;
+}
+
+/* ===== Bottom Input Bar (Chat-like) ===== */
+
+.bottom-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 10px 20px 12px;
+  background: linear-gradient(to top, #343541 40%, transparent);
+}
+
+.bottom-bar-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  background: #40414F;
+  border-radius: 999px;
+  padding: 6px 6px 6px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #565869;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.4);
+}
+
+.bottom-bar-inner input {
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  padding-left: 0;
+  color: var(--text-sub);
+
+}
+
+.bottom-bar-inner input:focus {
+  box-shadow: none;
+  border: none;
+}
+
+.send-btn {
+  border-radius: 999px;
+  border: none;
+  background: #10A37F;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: default;
+  /* only visual */
+}
+
+/* ===== Animations ===== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Responsive ===== */
+
+@media (max-width: 900px) {
+  .sidebar {
+    display: none;
+  }
+
+  .main-content {
+    border-left: none;
+  }
+}
+
+
+/* ===== Dashboard Clickable Cards ===== */
+
+.stat-click {
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.stat-click:hover {
+    transform: translateY(-2px);
+    background: #505265;
+    box-shadow: 0 0 20px rgba(16, 163, 127, 0.35);
+}
+
+/* ==== FIX: Light Mode Table Hover ==== */
+:root.light-theme .dark-table tbody tr:hover {
+    background: #e6e8ed !important;  /* smooth grey hover */
+}
+
+
+
+/* Action button style tweak to match issued table */
+.btn-secondary {
+    background: #505268;
+    color: #ddd;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background: #60627a;
+    transform: translateY(-1px);
+}
+
+.btn-secondary i {
+    font-size: 13px;
+}
+
+
+/* === Theme Switch Button === */
+.theme-btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: right;
+    transition: 0.2s ease-in-out;
+    float: right;
+}
+
+.theme-btn:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+}
+
+
+/* ==== Light Theme Select Field Fix ==== */
+:root.light-theme select,
+:root.light-theme option,
+:root.light-theme select:focus {
+    background: #ffffff !important;
+    color: #222 !important;
+    border-color: #c9ccd1 !important;
+}
+
+/* Placeholder option (first option) */
+:root.light-theme select option[disabled] {
+    color: #777 !important;
+}
+/* === TABLE HOVER USE ACCENT COLOR === */
+.dark-table tbody tr:hover {
+    background: rgba(16, 163, 127, 0.18) !important; /* green tint */
+}
+
+:root.light-theme .dark-table tbody tr:hover {
+    background: rgba(8, 144, 113, 0.15) !important; /* soft light green */
+}
+/* === BUTTON HOVER USE ACCENT COLOR === */
+.btn-return:hover,
+.btn-secondary:hover,
+.theme-btn:hover {
+    background: var(--accent) !important;
+    color: #fff !important;
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+}
+
+.nav-item:hover {
+    background: var(--accent) !important;
+    color: #fff !important;
+    opacity: 1;
+}
+:root.light-theme .nav-item.active,
+:root.light-theme .nav-item:hover {
+    background: var(--accent) !important;
+    color: #fff !important;
+}
+.btn-secondary:hover i,
+.btn-return:hover i {
+    color: #fff !important;
+}
+/* === Light Mode: Stat Cards Hover Accent === */
+:root.light-theme .stat-click:hover {
+    background: rgba(8, 144, 113, 0.12) !important; /* soft green tint */
+    box-shadow: 0 0 12px rgba(8, 144, 113, 0.35) !important;
+    transform: translateY(-2px);
+}
+:root.light-theme .stat-card .stat-value,
+:root.light-theme .stat-card .stat-label {
+    color: #1c1c1c !important;
+}
+/* === Remove Sidebar Hover Effect === */
+/* === FORCE REMOVE SIDEBAR HOVER === */
+/* === FINAL REMOVE SIDEBAR HOVER === */
+.sidebar .nav-item:hover,
+.sidebar .nav-item:hover i,
+.sidebar .nav-item:hover span {
+    background-color: transparent !important;
+    color: inherit !important;
+    opacity: 1 !important;
+    box-shadow: none !important;
+    transform: none !important;
+    filter: none !important;
+}
+.sidebar .nav-item.active {
+    background: var(--accent) !important;
+    color: #fff !important;
+}
+/* === FORCE REMOVE SIDEBAR HOVER (FINAL) === */
+.sidebar .nav-item:hover {
+    background: var(--bg-sidebar) !important;
+    color: var(--text-main) !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+}
+
+.sidebar .nav-item:hover i,
+.sidebar .nav-item:hover span {
+    color: var(--text-main) !important;
+}
+:root.light-theme .sidebar .nav-item:hover {
+    background: var(--bg-sidebar) !important;
+    color: var(--text-main) !important;
+}
+
+/* ===== Dashboard layout extras ===== */
+
+.welcome-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.welcome-left h3 {
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+
+.welcome-subtitle {
+    font-size: 13px;
+    color: var(--text-sub);
+    margin-bottom: 8px;
+}
+
+.clock-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+.welcome-right {
+    flex: 0 0 320px;
+}
+
+.global-search-form {
+    display: flex;
+    gap: 8px;
+}
+
+.global-search-form input {
+    border-radius: 999px;
+}
+
+/* Quick actions */
+
+.quick-actions-card {
+    margin-top: 12px;
+    margin-bottom: 16px;
+}
+
+.quick-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.quick-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-main);
+    color: var(--text-main);
+    font-size: 13px;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+.quick-btn i {
+    font-size: 13px;
+}
+
+.quick-btn:hover {
+    background: var(--accent);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 0 12px rgba(16, 163, 127, 0.5);
+}
+
+/* Dashboard grid */
+
+.dashboard-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+    margin-top: 4px;
+}
+
+.dashboard-col {
+    flex: 1 1 280px;
+}
+
+/* Chart area */
+
+.chart-subtitle {
+    font-size: 12px;
+    color: var(--text-sub);
+    margin-bottom: 10px;
+}
+
+.chart-legend {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--text-sub);
+}
+
+.legend-dot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    margin-right: 4px;
+}
+
+.legend-issued {
+    background: #10A37F;
+}
+
+.legend-available {
+    background: #6B7280;
+}
+
+/* Most issued */
+
+.most-issued-card h3 {
+    font-size: 16px;
+    margin-bottom: 6px;
+}
+
+.most-issued-meta {
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.most-issued-note {
+    font-size: 12px;
+    color: var(--text-sub);
+}
+
+/* Responsive: stack welcome card on small screens */
+
+@media (max-width: 900px) {
+    .welcome-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .welcome-right {
+        width: 100%;
+        flex: 1 1 auto;
+    }
+
+    .global-search-form {
+        width: 100%;
+    }
+}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h2>Library Members</h2>
+        <p class="page-subtitle">Manage student/user membership records.</p>
+    </div>
+    <a class="btn btn-return" href="{{ url_for('add_member') }}">
+        <i class="fa-solid fa-user-plus"></i> Add Member
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <span>Registered Members</span>
+    </div>
+    <div class="card-body table-wrapper">
+        <table class="dark-table">
+            <thead>
+                <tr>
+                    <th>#</th><th>Name</th><th>Email</th><th>Phone</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for m in members %}
+                <tr>
+                    <td>{{ m.id }}</td>
+                    <td>{{ m.name }}</td>
+                    <td>{{ m.email }}</td>
+                    <td>{{ m.phone }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="4" style="text-align:center; opacity:0.7;">No members found.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
